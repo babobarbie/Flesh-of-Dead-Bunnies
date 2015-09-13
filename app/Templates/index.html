@@ -42,7 +42,7 @@
 
                 <li>
                     <div id="form">
-                      <form action = '/' method = "POST">
+                      <form method = "POST">
                        <textarea name = "address" rows="2" cols="40"  style="width: 200px; float: center;"></textarea><br>
                           <span class="right" style="width: 278px; float: right; text-align:center;"><input type="submit" value = "Enter" display:inline-block; /></span>
                       </form>
@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Where to Squat</h1>
-                        <p>Show a map of crime.</p>
+                        <p>This web application assists those in need of emergency housing without access to shelter to find vacant buildings nearby with a low rate of crime, as seen by the heat map.</p>
                         
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                         <br><br>
@@ -94,7 +94,7 @@ function initMap() {
    var heatmapData = [];
     var crimeslat = {{crimelat|safe}};
     var crimeslong = {{crimelong|safe}};
-    var crimeheat={{crimeheat|safe}}
+    var crimeheat= {{crimeheat|safe}};
 
     var i;
     var len = crimeslat.length;

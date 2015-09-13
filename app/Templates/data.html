@@ -42,7 +42,7 @@
 
                 <li>
                     <div id="form">
-                      <form action = '/' method = "POST">
+                      <form method = "POST">
                        <textarea name = "address" value = myaddress rows="2" cols="40"  style="width: 200px; float: center;"></textarea><br>
                           <span class="right" style="width: 278px; float: right; text-align:center;"><input type="submit" value = "Enter" display:inline-block; /></span>
                       </form>
@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Where to Squat</h1>
-                        <p>Show a map of crime.</p>
+                        <p>This web application assists those in need of emergency housing without access to shelter to find vacant buildings nearby with a low rate of crime, as seen by the heat map.</p>
                         
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                         <br><br>
@@ -94,7 +94,11 @@ function initMap() {
     var heatmapData = [];
     var crimeslat = {{crimelat|safe}};
     var crimeslong = {{crimelong|safe}};
-    var crimeheat={{crimeheat|safe}}
+    var crimeheat={{crimeheat|safe}};
+    var myslat={{mylat|safe}};
+    var myslng={{mylng|safe}};
+    var slatvac={{latvac|safe}};
+    var slngvac={{lngvac|safe}};
 
     var i;
     var len = crimeslat.length;
@@ -108,12 +112,14 @@ function initMap() {
         heatmapData.push(weightedLoc);
     }
 
-    var baltimore = new google.maps.LatLng(39.2833, -76.6167);
+    // var geocoder = new google.maps.Geocoder();
+    // var mainaddress = geocodeAddress(geocoder,myaddress)
+    var mainaddress = new google.maps.LatLng(myslat, myslng);
 
 
     map = new google.maps.Map(document.getElementById("googleMap"), {
-    zoom: 12,
-    center: baltimore,
+    zoom: 15,
+    center: mainaddress,
         mapTypeId: google.maps.MapTypeId.SATELLITE
      });
 
@@ -123,26 +129,23 @@ function initMap() {
     });
     heatmap.setMap(map);
 
-    var ad = myaddress;
-    var geocoder = new google.maps.Geocoder();
-    geocodeAddress(ad, geocoder, map);
-
+    var outputi = ""; 
+    var k;
+    var vack = slatvac.length;
+    for (k=0;k<vack,k++) {
+        tempi = -1*slngvac[k];
+        var vlatlng = new google.maps.LatLng(slatvac[k],tempi);
+        outputi += "<li>" + vlatlng + "</li>";
+        
+    }
+    document.write(outputi);
+    var marker = new google.maps.Marker({
+    position: mainaddress,
+    map: map
+    });
     }
 
-function geocodeAddress(ad, geocoder, resultsMap) {
-    var address = ad;
-    geocoder.geocode({'address': address}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    });
-}
+
 google.maps.event.addDomListener(window, 'load', initMap);
 </script>
 

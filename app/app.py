@@ -7,7 +7,9 @@ import re
 import sys
 import numpy as np
 import json
+import googlemaps
 
+gmaps = googlemaps.Client(key='AIzaSyCiVEr0yWe_5B7MCoDp0hpHphROJ_DinmE')
 #backend: gets data from baltimore open data, processes everything. should turn into a class later
 baltimore=sodapy.Socrata('data.baltimorecity.gov','LVq4aS6jaUvEi55ssKd2BRca3',username="thegoofyguber@gmail.com",password='12TTfbicc89!')
 vacancy=baltimore.get('/resource/qqcv-ihn5.csv')
@@ -65,18 +67,55 @@ heatmap = []
 for i in range(0,len(crimetime)):
 	heatmap.append((1000000/crimetime[i]))
 
+class TopVacancies:
+
+	def __init__(self,lati,longi):
+		self.currentlocation=(lati,longi)
+
+	def top5(self):
+		self.distancescore=[]
+		for i in range(0,1000):
+			self.distancescore=self.distancescore+[np.sqrt(np.square(self.currentlocation[0]-vacancymap[i][0])+np.square(self.currentlocation[1]-vacancymap[i][1]))]
+
+		self.totalscore=[]
+		for i in range(0,1000):
+			self.totalscore=self.totalscore+[self.distancescore[i]/heat[i]]
+
+		self.vacancyandscore=[]
+		for i in range(0,1000):
+			self.vacancyandscore=self.vacancyandscore+[(vacancymap[i][0], vacancymap[i][1], self.totalscore[i])]
+
+		self.vacancyandscore.sort(key=lambda tup: tup[2])
+
+		self.vacancyandscore.reverse()
+		return self.vacancyandscore[:5]
+
 # dfsdf
 app = Flask(__name__)
 
 @app.route("/")
 def main():
-	return render_template('index.html')
+	return render_template('index.html',crimelat=crimelat, crimelong=crimelong, crimeheat=heatmap)
 
 
-# @app.route('/', methods=['POST'])
-# def my_form_post():
-#     adrs = request.form['address']
-#     return render_template('data.html',myaddress = adrs)
-
+@app.route('/', methods=['POST'])
+def my_form_post():
+    adrs = request.form['address']
+    print adrs
+    garbage = gmaps.geocode(adrs)
+    blah=json.dumps(garbage)
+    pblah=json.loads(blah)
+    lat=pblah[0]['geometry']['location']['lat']
+    lng=pblah[0]['geometry']['location']['lng']
+    vacantlots=TopVacancies(lat,(-1*lng))
+    answer=vacantlots.top5()
+    latanswer=[]
+    lnganswer=[]
+    for i in range(0,5):
+    	latanswer=latanswer+[answer[i][0]]
+    	lnganswer=lnganswer+[answer[i][1]]
+    print lat,lng
+    return render_template('data.html',crimelat=crimelat, crimelong=crimelong, crimeheat=heatmap,mylat = lat, mylng= lng,latvac=latanswer,lngvac=lnganswer)
+    # return render_template('data.html',crimelat=crimelat, crimelong=crimelong, crimeheat=heatmap,mylat = lat, mylng= lng)
 if __name__ == "__main__":
 	app.run()
