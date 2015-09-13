@@ -13,30 +13,28 @@ function initMap() {
 	var crimeslong = {{crimelong|safe}};
 	var crimeheat={{crimeheat|safe}}
 
-	var j;
-	var output = "";
-	for(j=0; j<10; j++){
-		output += "<li>" + crimeheat[j*15] + "</li>";
-	}
-	document.write(output)
-
 	var i;
 	var len = crimeslat.length;
 	for (i=0; i<len;i++){
 		temp = -1*crimeslong[i];
-		heatmapData[i] = new google.maps.LatLng(crimeslat[i], temp), crimeheat[i];
+		var latLng = new google.maps.LatLng(crimeslat[i], temp);
+		var weightedLoc = {
+			location:latLng,
+			weight: crimeheat[i]
+		};
+		heatmapData.push(weightedLoc);
 	}
 
 	var baltimore = new google.maps.LatLng(39.2833, -76.6167);
 
 
 	map = new google.maps.Map(document.getElementById("googleMap"), {
-	zoom: 13,
+	zoom: 12,
 	center: baltimore,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	 });
 
-	var heatmap = new google.maps.visualization.HeatmapLayer({
+	heatmap = new google.maps.visualization.HeatmapLayer({
 	data: heatmapData,
 	map: map
 	});
