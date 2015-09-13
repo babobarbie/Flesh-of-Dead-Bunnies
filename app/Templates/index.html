@@ -117,7 +117,7 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.SATELLITE
      });
 
-    heatmap = new google.maps.visualization.HeatmapLayer({
+    var heatmap = new google.maps.visualization.HeatmapLayer({
     data: heatmapData,
     map: map
     });

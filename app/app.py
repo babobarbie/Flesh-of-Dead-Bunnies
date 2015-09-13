@@ -73,10 +73,10 @@ def main():
 	return render_template('index.html')
 
 
-@app.route('/', methods=['POST'])
-def my_form_post():
-    adrs = request.form['address']
-    return render_template('data.html',myaddress = adrs)
+# @app.route('/', methods=['POST'])
+# def my_form_post():
+#     adrs = request.form['address']
+#     return render_template('data.html',myaddress = adrs)
 
 if __name__ == "__main__":
 	app.run()
