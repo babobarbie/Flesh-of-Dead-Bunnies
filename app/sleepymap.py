@@ -15,6 +15,8 @@ crime=baltimore.get('/resource/wsfq-mvij.csv')
 
 #crime heatmap algorithm
 vacancymap=[]
+crimelat=[]
+crimelong=[]
 crimemap=[]
 current=time.time()
 crimetime=[]
@@ -38,6 +40,8 @@ for i in range(1,1001):
 		lat=float(result[0])
 		lon=float(result[1])
 		crimemap=crimemap+[(lat, lon)]
+		crimelat=crimelat+[lat]
+		crimelong=crimelong+[lon]
 	else:
 		poop.remove(i)
 
@@ -59,18 +63,18 @@ givevacancy=json.dumps(outjson)
 
 heatmap = []
 for i in range(0,len(crimetime)):
-	heatmap.append({"lat": crimemap[i][0], "long": crimemap[i][1], "weight": (1000000/crimetime[i])})
+	heatmap.append((1000000/crimetime[i]))
 
-jsonheat={"ListofCrimes": heatmap}
+# jsonheat={"ListofCrimes": heatmap}
 
-tojsoncrime=json.dumps(jsonheat)
+# tojsoncrime=json.dumps(jsonheat)
 
 #app starts here
 app = Flask(__name__)
 
 @app.route("/")
 def main():
-	return render_template('mapmap.html', crime=tojsoncrime)
+	return render_template('mapmap.html', crimelat=crimelat, crimelong=crimelong, crimeheat=heatmap)
 
 
 if __name__ == "__main__":

@@ -4,33 +4,41 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiVEr0yWe_5B7MCoDp0hpHphROJ_DinmE&signed_in=true&libraries=visualization&callback=initMap">
     </script>
-
 <script>
-/* Data points defined as an array of LatLng objects */
+//  Data points defined as an array of LatLng objects 
 
 function initMap() {
 	var heatmapData = [];
+	var crimeslat = {{crimelat|safe}};
+	var crimeslong = {{crimelong|safe}};
+	var crimeheat={{crimeheat|safe}}
 
-	var obj = JSON.parse(crime);
+	var j;
+	var output = "";
+	for(j=0; j<10; j++){
+		output += "<li>" + crimeheat[j*15] + "</li>";
+	}
+	document.write(output)
 
-	var len = obj.ListOfCrimes.length;
 	var i;
-	for (i=0, i<len;i++){
-		heatmapData[i] = new google.maps.LatLng(obj.ListOfCrimes[i].lat, obj.ListOfCrimes[i].lng), weight: ListOfCrimes[i].weight;
+	var len = crimeslat.length;
+	for (i=0; i<len;i++){
+		temp = -1*crimeslong[i];
+		heatmapData[i] = new google.maps.LatLng(crimeslat[i], temp), crimeheat[i];
 	}
 
 	var baltimore = new google.maps.LatLng(39.2833, -76.6167);
 
 
 	map = new google.maps.Map(document.getElementById("googleMap"), {
-		zoom: 13,
-		center: baltimore,
+	zoom: 13,
+	center: baltimore,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
-	});
+	 });
 
-	heatmap = new google.maps.visualization.HeatmapLayer({
-		data: heatmapData,
-		map: map
+	var heatmap = new google.maps.visualization.HeatmapLayer({
+	data: heatmapData,
+	map: map
 	});
 	heatmap.setMap(map);
 	}
