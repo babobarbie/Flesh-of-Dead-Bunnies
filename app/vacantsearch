@@ -1,0 +1,22 @@
+class TopVacancies:
+
+	def __init__(self,gps):
+		self.currentlocation=gps
+
+	def top5(self):
+		self.distancescore=[]
+		for i in range(0,1000):
+			distancescore=distancescore+[np.sqrt(np.square(self.currentlocation[0]-vacancymap[i][0])+np.square(self.currentlocation[1]-vacancymap[i][1]))]
+
+		self.totalscore=[]
+		for i in range(0,1000):
+			self.totalscore=totalscore+[distancescore[i]/heat[i]]
+
+		self.vacancyandscore=[]
+		for i in range(0,1000):
+			self.vacancyandscore=self.vacancyandscore+[(vacancymap[i][0], vacancymap[i][1], self.totalscore[i])]
+
+		self.vacancyandscore.sort(key=lambda tup: tup[2])
+
+		self.vacancyandscore.reverse()
+		return self.vacancyandscore[:5]
