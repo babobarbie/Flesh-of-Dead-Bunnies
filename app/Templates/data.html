@@ -129,18 +129,20 @@ function initMap() {
     });
     heatmap.setMap(map);
 
-    // var outputi = ""; 
-    // var k;
-    // var vack = slatvac.length;
-    // for (k=0;k<vack,k++) {
-    //     tempi = -1*slngvac[k];
-    //     var vlatlng = new google.maps.LatLng(slatvac[k],tempi);
-    //     // outputi += "<li>" + vlatlng + "</li>";
-    //     new google.maps.Marker({
-    //         position: vlatlng,
-    //         map: map
-    //     });
-    // }   
+    var outputi = ""; 
+    var k;
+    var vack = slatvac.length;
+    markervacs = [];
+    for (k=0;k<vack;k++) {
+        tempi = -1*slngvac[k];
+        var vlatlng = new google.maps.LatLng(slatvac[k],tempi);
+        // outputi += "<li>" + vlatlng + "</li>";
+        myMarker = new google.maps.Marker({
+            position: vlatlng,
+            map: map
+        });
+    } 
+
     
     // document.write(outputi);
     var marker = new google.maps.Marker({
@@ -154,5 +156,7 @@ google.maps.event.addDomListener(window, 'load', initMap);
 </script>
 
 </body>
-
+<footer>
+    print mainaddress
+</footer>
 </html>

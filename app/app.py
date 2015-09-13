@@ -79,7 +79,7 @@ class TopVacancies:
 
 		self.totalscore=[]
 		for i in range(0,1000):
-			self.totalscore=self.totalscore+[self.distancescore[i]/heat[i]]
+			self.totalscore=self.totalscore+[1/(self.distancescore[i]*heat[i])]
 
 		self.vacancyandscore=[]
 		for i in range(0,1000):
@@ -115,6 +115,8 @@ def my_form_post():
     	latanswer=latanswer+[answer[i][0]]
     	lnganswer=lnganswer+[answer[i][1]]
     print lat,lng
+    print latanswer
+    print lnganswer
     return render_template('data.html',crimelat=crimelat, crimelong=crimelong, crimeheat=heatmap,mylat = lat, mylng= lng,latvac=latanswer,lngvac=lnganswer)
     # return render_template('data.html',crimelat=crimelat, crimelong=crimelong, crimeheat=heatmap,mylat = lat, mylng= lng)
 if __name__ == "__main__":
