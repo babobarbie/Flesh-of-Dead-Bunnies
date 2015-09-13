@@ -1,19 +1,52 @@
 <!DOCTYPE html>
+<html>
 <head>
-	<body>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiVEr0yWe_5B7MCoDp0hpHphROJ_DinmE&signed_in=true&libraries=visualization&callback=initMap">
+    </script>
+
 <script>
-function myFunction() {
-	document.getElementById("demo").innerHTML = "Paragraph changed.";
-}
+/* Data points defined as an array of LatLng objects */
+
+function initMap() {
+	var heatmapData = [
+	new google.maps.LatLng(37.782, -122.447),
+	new google.maps.LatLng(37.782, -122.445),
+	new google.maps.LatLng(37.782, -122.443),
+	new google.maps.LatLng(37.782, -122.441),
+	new google.maps.LatLng(37.782, -122.439),
+	new google.maps.LatLng(37.782, -122.437),
+	new google.maps.LatLng(37.782, -122.435),
+	new google.maps.LatLng(37.785, -122.447),
+	new google.maps.LatLng(37.785, -122.445),
+	new google.maps.LatLng(37.785, -122.443),
+	new google.maps.LatLng(37.785, -122.441),
+	new google.maps.LatLng(37.785, -122.439),
+	new google.maps.LatLng(37.785, -122.437),
+	new google.maps.LatLng(37.785, -122.435)
+	];
+
+	var sanFrancisco = new google.maps.LatLng(37.774546, -122.433523);
+
+
+	map = new google.maps.Map(document.getElementById("googleMap"), {
+		zoom: 13,
+		center: sanFrancisco,
+		mapTypeId: google.maps.MapTypeId.SATELLITE
+	});
+
+	heatmap = new google.maps.visualization.HeatmapLayer({
+		data: heatmapData,
+		map: map
+	});
+	heatmap.setMap(map);
+	}
+google.maps.event.addDomListener(window, 'load', initMap);
 </script>
-</head> 
+</head>
 
 <body>
-
-	<h1>My Web Page</h1>
-	<p id="demo">A Paragraph</p>
-
-	<button type="button" onclick="myFunction()">Try it</button>
+<div id="googleMap" style="width:500px;height:380px;"></div>
 
 </body>
 </html>
