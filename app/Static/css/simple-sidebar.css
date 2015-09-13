@@ -62,6 +62,7 @@
 .sidebar-nav li {
     text-indent: 20px;
     line-height: 40px;
+    color: #999999;
 }
 
 .sidebar-nav li a {
@@ -83,7 +84,7 @@
 
 .sidebar-nav > .sidebar-brand {
     height: 65px;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 60px;
 }
 
@@ -96,6 +97,15 @@
     background: none;
 }
 
+.sidebar-nav > form {
+  position: relative;
+
+  width  : 100px;
+  height : 100px;
+  margin : 0 auto;
+
+  background: #FFF url(background.jpg);
+}
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;
