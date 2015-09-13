@@ -70,7 +70,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-	return render_template('heatmap.html', crime=tojsoncrime)
+	return render_template('mapmap.html', crime=tojsoncrime)
 
 
 if __name__ == "__main__":
