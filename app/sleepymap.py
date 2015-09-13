@@ -55,7 +55,7 @@ outjson={}
 for i in range(0,len(vacancymap)):
     outjson.update({i:(vacancymap[i][0], vacancymap[i][1], heat[i])})
 
-givevacancy=jsondumps(outjson)
+givevacancy=json.dumps(outjson)
 
 heatmap = []
 for i in range(0,len(crimetime)):
